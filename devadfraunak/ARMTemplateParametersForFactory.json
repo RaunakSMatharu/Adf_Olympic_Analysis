@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "devadfraunak"
+		},
+		"Pub_AzureDataLakeStorage_gen2_accountKey": {
+			"value": ""
+		},
+		"Snowflake_Source_connectionString": {
+			"value": ""
+		},
+		"AzureKeyVault_properties_typeProperties_baseUrl": {
+			"value": "https://devkeyvaultraunaks.vault.azure.net"
+		},
+		"Pub_AzureDataLakeStorage_gen2_properties_typeProperties_url": {
+			"value": "https://devpubgen2raunak.dfs.core.windows.net/"
+		},
+		"Source_AzureDataLakeStorage_properties_typeProperties_url": {
+			"value": "https://sourcegen2raunak.dfs.core.windows.net/"
+		},
+		"Source_RestService_properties_typeProperties_url": {
+			"value": "https://countryapi.io/api/all"
+		},
+		"devrawgen2storage_link_properties_typeProperties_url": {
+			"value": "https://devrawgen2raunak.dfs.core.windows.net/"
+		},
+		"raw_blob_linked_service_sasUri": {
+			"value": ""
+		}
+	}
+}

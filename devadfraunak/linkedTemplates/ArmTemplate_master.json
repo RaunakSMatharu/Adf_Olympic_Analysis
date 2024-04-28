@@ -1,0 +1,118 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "devadfraunak"
+		},
+		"Pub_AzureDataLakeStorage_gen2_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'Pub_AzureDataLakeStorage_gen2'"
+		},
+		"Snowflake_Source_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Snowflake_Source'"
+		},
+		"AzureKeyVault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://devkeyvaultraunaks.vault.azure.net"
+		},
+		"Pub_AzureDataLakeStorage_gen2_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://devpubgen2raunak.dfs.core.windows.net/"
+		},
+		"Source_AzureDataLakeStorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sourcegen2raunak.dfs.core.windows.net/"
+		},
+		"Source_RestService_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://countryapi.io/api/all"
+		},
+		"devrawgen2storage_link_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://devrawgen2raunak.dfs.core.windows.net/"
+		},
+		"raw_blob_linked_service_sasUri": {
+			"type": "secureString",
+			"metadata": "Secure string for 'sasUri' of 'raw_blob_linked_service'"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "devadfraunak_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Pub_AzureDataLakeStorage_gen2_accountKey": {
+						"value": "[parameters('Pub_AzureDataLakeStorage_gen2_accountKey')]"
+					},
+					"Snowflake_Source_connectionString": {
+						"value": "[parameters('Snowflake_Source_connectionString')]"
+					},
+					"AzureKeyVault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault_properties_typeProperties_baseUrl')]"
+					},
+					"Pub_AzureDataLakeStorage_gen2_properties_typeProperties_url": {
+						"value": "[parameters('Pub_AzureDataLakeStorage_gen2_properties_typeProperties_url')]"
+					},
+					"Source_AzureDataLakeStorage_properties_typeProperties_url": {
+						"value": "[parameters('Source_AzureDataLakeStorage_properties_typeProperties_url')]"
+					},
+					"Source_RestService_properties_typeProperties_url": {
+						"value": "[parameters('Source_RestService_properties_typeProperties_url')]"
+					},
+					"devrawgen2storage_link_properties_typeProperties_url": {
+						"value": "[parameters('devrawgen2storage_link_properties_typeProperties_url')]"
+					},
+					"raw_blob_linked_service_sasUri": {
+						"value": "[parameters('raw_blob_linked_service_sasUri')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "devadfraunak_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'devadfraunak_ArmTemplate_0')]"
+			]
+		}
+	]
+}
