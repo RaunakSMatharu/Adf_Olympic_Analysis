@@ -1,0 +1,29 @@
+{
+	"name": "Pub_Parquet_Gen2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Pub_AzureDataLakeStorage_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Pub_folder_name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@dataset().Pub_folder_name",
+					"type": "Expression"
+				},
+				"fileSystem": "olymicdata"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

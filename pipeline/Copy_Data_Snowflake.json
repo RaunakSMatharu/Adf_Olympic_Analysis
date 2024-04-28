@@ -1,0 +1,105 @@
+{
+	"name": "Copy_Data_Snowflake",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data From Snowflake",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SnowflakeSource",
+						"exportSettings": {
+							"type": "SnowflakeExportCopyCommand"
+						}
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "raw_blob_linked_service",
+							"type": "LinkedServiceReference"
+						},
+						"path": "olympicdata/Snowflake"
+					},
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "TEAMNAME",
+									"type": "String"
+								},
+								"sink": {
+									"name": "TEAMNAME",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DISCIPLINE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "DISCIPLINE",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "COUNTRY",
+									"type": "String"
+								},
+								"sink": {
+									"name": "COUNTRY",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "EVENT",
+									"type": "String"
+								},
+								"sink": {
+									"name": "EVENT",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Source_Snowflake_Table",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Sink_Parquet_Gen2",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2024-04-25T21:51:51Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

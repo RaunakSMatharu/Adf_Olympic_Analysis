@@ -1,0 +1,47 @@
+{
+	"name": "send_email_notification",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://prod-06.eastus.logic.azure.com:443/workflows/1a9ae4a0fcae4b479f5945fe0c391079/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=O7w542u6hlEJXKLCxBLKsh91wn555zgTlE2jZXrmhHs",
+					"body": {
+						"value": "{\n    \"Status\": \"@{pipeline().parameters.Status}\",\n    \"PipelineName\":\"@{pipeline().Pipeline}\",\n    \"ExecutionTime\":\"@{pipeline().TriggerTime}\",\n    \"PipelineTriggerName\":\"@{pipeline().TriggerName}\",\n    \"OrgiPipelineName\":\"@{pipeline().parameters.File_name}\",\n    \"PipelineRunBy\":\"@{pipeline().parameters.PipelineRunBy}\"\n}",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"Status": {
+				"type": "string"
+			},
+			"File_name": {
+				"type": "string"
+			},
+			"PipelineRunBy": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"date_folder": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-04-28T04:05:14Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

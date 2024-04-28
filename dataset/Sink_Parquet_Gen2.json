@@ -1,0 +1,24 @@
+{
+	"name": "Sink_Parquet_Gen2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "devrawgen2storage_link",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@concat('Snowflake/Date_Part=',formatDateTime(utcnow(),'yyyy-MM-dd'))",
+					"type": "Expression"
+				},
+				"fileSystem": "olympicdata"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

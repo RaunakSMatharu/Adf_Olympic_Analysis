@@ -1,0 +1,88 @@
+{
+	"name": "Medals",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Raw_csv_Gen2",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Pub_Parquet_Gen2",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "rank1"
+				},
+				{
+					"name": "rank2"
+				},
+				{
+					"name": "rank3"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Rank as short,",
+				"          Team_Country as string,",
+				"          Gold as short,",
+				"          Silver as short,",
+				"          Bronze as short,",
+				"          Total as short,",
+				"          {Rank by Total} as short",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 rank(desc(Gold, true),",
+				"     caseInsensitive: true,",
+				"     output(Rank_By_Gold as long),",
+				"     dense: true) ~> rank1",
+				"rank1 rank(desc(Silver, true),",
+				"     caseInsensitive: true,",
+				"     output(Rank_By_Silver as long),",
+				"     dense: true) ~> rank2",
+				"rank2 rank(desc(Bronze, true),",
+				"     caseInsensitive: true,",
+				"     output(Rank_By_Bronze as long),",
+				"     dense: true) ~> rank3",
+				"rank3 select(mapColumn(",
+				"          Rank,",
+				"          Team_Country,",
+				"          Gold,",
+				"          Silver,",
+				"          Bronze,",
+				"          Total,",
+				"          Rank_by_Total = {Rank by Total},",
+				"          Rank_By_Gold,",
+				"          Rank_By_Silver,",
+				"          Rank_By_Bronze",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

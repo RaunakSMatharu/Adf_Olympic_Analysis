@@ -1,0 +1,19 @@
+{
+	"name": "Sink_Binary_gen2_Metadata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "devrawgen2storage_link",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "Dataset",
+				"fileSystem": "olympicdata"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,24 @@
+{
+	"name": "SInk_Json_gen2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "devrawgen2storage_link",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "contries.json",
+				"folderPath": {
+					"value": "@concat('Rest_API/Date_Part=',formatDateTime(utcnow(),'yyyy-MM-dd'))",
+					"type": "Expression"
+				},
+				"fileSystem": "olympicdata"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

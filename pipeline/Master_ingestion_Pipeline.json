@@ -1,0 +1,251 @@
+{
+	"name": "Master_ingestion_Pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Copy_Data_Gen2_pipeline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Execute Pipeline2",
+				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Copy_Data_Snowflake",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Execute Pipeline3",
+				"type": "ExecutePipeline",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Copy_Data_Rest_API",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "send_email_notification",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "send_email_notification",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Status": "Succeeded",
+						"File_name": "Copy_Data_Gen2_Pipeline",
+						"PipelineRunBy": {
+							"value": "@pipeline()?.TriggeredByPipelineName",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "send_email_notification1",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "send_email_notification",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Status": "Succeeded",
+						"File_name": "Copy_Data_Rest_API",
+						"PipelineRunBy": {
+							"value": "@pipeline()?.TriggeredByPipelineName",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "send_email_notification2",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "send_email_notification",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Status": "Succeeded",
+						"File_name": "Copy_Data_Snowflake_Pipeline",
+						"PipelineRunBy": {
+							"value": "@pipeline()?.TriggeredByPipelineName",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "send_email_notification3",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "send_email_notification",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Status": "Failed",
+						"File_name": "Copy_Data_Gen2_Pipeline",
+						"PipelineRunBy": {
+							"value": "@pipeline()?.TriggeredByPipelineName",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "send_email_notification4",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline2",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "send_email_notification",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Status": "Failed",
+						"File_name": "Copy_Data_Snowflake_Pipeline",
+						"PipelineRunBy": {
+							"value": "@pipeline()?.TriggeredByPipelineName",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "send_email_notification5",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline3",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "send_email_notification",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Status": "Failed",
+						"File_name": "Copy_Data_Rest_API",
+						"PipelineRunBy": {
+							"value": "@pipeline()?.TriggeredByPipelineName",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "Master"
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-04-28T04:10:37Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

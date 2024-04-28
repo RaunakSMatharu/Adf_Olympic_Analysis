@@ -1,0 +1,42 @@
+{
+	"name": "Sink_Raw_Snowflake_Transform_Parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "devrawgen2storage_link",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "Snowflake",
+				"fileSystem": "olympicdata"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "TEAMNAME",
+				"type": "UTF8"
+			},
+			{
+				"name": "DISCIPLINE",
+				"type": "UTF8"
+			},
+			{
+				"name": "COUNTRY",
+				"type": "UTF8"
+			},
+			{
+				"name": "EVENT",
+				"type": "UTF8"
+			},
+			{
+				"name": "Date_Part",
+				"type": "UTF8"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

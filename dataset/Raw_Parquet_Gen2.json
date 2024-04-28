@@ -1,0 +1,42 @@
+{
+	"name": "Raw_Parquet_Gen2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "devrawgen2storage_link",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"file_name": {
+				"type": "string",
+				"defaultValue": "data_0_0_0.parquet"
+			},
+			"date_part": {
+				"type": "string",
+				"defaultValue": "Date_Part=2024-04-24"
+			},
+			"source_file_name": {
+				"type": "string",
+				"defaultValue": "Snowflake"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().file_name",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat(dataset().source_file_name,'/',dataset().date_part)",
+					"type": "Expression"
+				},
+				"fileSystem": "olympicdata"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

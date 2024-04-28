@@ -1,0 +1,18 @@
+{
+	"name": "src_Metadata_Gen2_Binary",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source_AzureDataLakeStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "olympicsdata"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,66 @@
+{
+	"name": "Source_Snowflake_Table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Snowflake_Source",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeTable",
+		"schema": [
+			{
+				"name": "DATABASE_NAME",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "DATABASE_OWNER",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "IS_TRANSIENT",
+				"type": "VARCHAR",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "COMMENT",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "CREATED",
+				"type": "TIMESTAMP_LTZ",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "LAST_ALTERED",
+				"type": "TIMESTAMP_LTZ",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "RETENTION_TIME",
+				"type": "NUMBER",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "TYPE",
+				"type": "VARCHAR",
+				"precision": 19,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "OLY",
+			"table": "TEAMS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

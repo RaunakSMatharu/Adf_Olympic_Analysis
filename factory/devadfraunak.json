@@ -1,0 +1,9 @@
+{
+	"name": "devadfraunak",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "5c575663-3c02-4bb2-8801-d9f6262ed237",
+		"tenantId": "a8eec281-aaa3-4dae-ac9b-9a398b9215e7"
+	}
+}

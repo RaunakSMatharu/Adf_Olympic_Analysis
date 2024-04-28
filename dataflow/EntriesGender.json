@@ -1,0 +1,69 @@
+{
+	"name": "EntriesGender",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Raw_Parquet_Gen2",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Pub_Parquet_Gen2",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "cast1"
+				},
+				{
+					"name": "cast2"
+				},
+				{
+					"name": "cast3"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Discipline as string,",
+				"          Female as long,",
+				"          Male as long,",
+				"          Total as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> source1",
+				"source1 cast(output(",
+				"          Discipline as string",
+				"     ),",
+				"     errors: true) ~> cast1",
+				"cast1 cast(output(",
+				"          Discipline as string",
+				"     ),",
+				"     errors: true) ~> cast2",
+				"cast2 cast(output(",
+				"          Discipline as string",
+				"     ),",
+				"     errors: true) ~> cast3",
+				"cast3 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

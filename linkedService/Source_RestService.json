@@ -1,0 +1,27 @@
+{
+	"name": "Source_RestService",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://countryapi.io/api/all",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous",
+			"authHeaders": {
+				"APIKey": {
+					"type": "AzureKeyVaultSecret",
+					"store": {
+						"referenceName": "AzureKeyVault",
+						"type": "LinkedServiceReference"
+					},
+					"secretName": "src-rest-api-key"
+				}
+			}
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntimeSelf",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

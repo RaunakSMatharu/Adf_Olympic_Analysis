@@ -1,0 +1,74 @@
+{
+	"name": "teams",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Raw_Parquet_Gen2",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Pub_Parquet_Gen2",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "cast1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          TEAMNAME as string,",
+				"          DISCIPLINE as string,",
+				"          COUNTRY as string,",
+				"          EVENT as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> source1",
+				"source1 aggregate(groupBy(TEAMNAME,",
+				"          DISCIPLINE,",
+				"          COUNTRY),",
+				"     Total_Events = countDistinct(EVENT)) ~> aggregate1",
+				"aggregate1 select(mapColumn(",
+				"          Teamname = TEAMNAME,",
+				"          Discipline = DISCIPLINE,",
+				"          Country = COUNTRY,",
+				"          Total_Events",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 cast(output(",
+				"          Total_Events as integer",
+				"     ),",
+				"     errors: true) ~> cast1",
+				"cast1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}
