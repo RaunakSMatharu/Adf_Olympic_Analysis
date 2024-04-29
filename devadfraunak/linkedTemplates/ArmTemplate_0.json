@@ -65,7 +65,10 @@
 						"typeProperties": {
 							"method": "POST",
 							"headers": {},
-							"url": "https://prod-06.eastus.logic.azure.com:443/workflows/1a9ae4a0fcae4b479f5945fe0c391079/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=O7w542u6hlEJXKLCxBLKsh91wn555zgTlE2jZXrmhHs",
+							"url": {
+								"value": "@pipeline().globalParameters.logicapp_url",
+								"type": "Expression"
+							},
 							"body": {
 								"value": "{\n    \"Status\": \"@{pipeline().parameters.Status}\",\n    \"PipelineName\":\"@{pipeline().Pipeline}\",\n    \"ExecutionTime\":\"@{pipeline().TriggerTime}\",\n    \"PipelineTriggerName\":\"@{pipeline().TriggerName}\",\n    \"OrgiPipelineName\":\"@{pipeline().parameters.File_name}\",\n    \"PipelineRunBy\":\"@{pipeline().parameters.PipelineRunBy}\"\n}",
 								"type": "Expression"
@@ -122,6 +125,35 @@
 					"accountKey": {
 						"type": "SecureString",
 						"value": "[parameters('Pub_AzureDataLakeStorage_gen2_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2024-04-25T01:00:00",
+						"endTime": "2024-05-02T00:00:00",
+						"timeZone": "Eastern Standard Time",
+						"schedule": {
+							"minutes": [
+								0
+							],
+							"hours": [
+								13
+							]
+						}
 					}
 				}
 			},
@@ -588,76 +620,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Source_RestService')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Source_Snowflake_Table')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Snowflake_Source",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SnowflakeTable",
-				"schema": [
-					{
-						"name": "DATABASE_NAME",
-						"type": "VARCHAR",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "DATABASE_OWNER",
-						"type": "VARCHAR",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "IS_TRANSIENT",
-						"type": "VARCHAR",
-						"precision": 3,
-						"scale": 0
-					},
-					{
-						"name": "COMMENT",
-						"type": "VARCHAR",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "CREATED",
-						"type": "TIMESTAMP_LTZ",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "LAST_ALTERED",
-						"type": "TIMESTAMP_LTZ",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "RETENTION_TIME",
-						"type": "NUMBER",
-						"precision": 38,
-						"scale": 0
-					},
-					{
-						"name": "TYPE",
-						"type": "VARCHAR",
-						"precision": 19,
-						"scale": 0
-					}
-				],
-				"typeProperties": {
-					"schema": "OLY",
-					"table": "TEAMS"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Snowflake_Source')]"
 			]
 		}
 	]
